@@ -5,11 +5,6 @@
     name: haproxy
     state: latest
 
-- name: enable HAProxy
-  service:
-    name: haproxy
-    state: started
-
 - name: configure haproxy
   template:
     src: templates/haproxy.cfg.j2
@@ -17,4 +12,9 @@
   notify:
     - restart haproxy
 
+- name: enable HAProxy
+  service:
+    name: haproxy
+    state: started
+    enabled: true
 
