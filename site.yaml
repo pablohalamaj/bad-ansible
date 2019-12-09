@@ -6,7 +6,7 @@
   tags:
     - common
 
-- hosts: frontends, apps
+- hosts: apps
   become: yes
   roles:
     - httpd
@@ -19,3 +19,10 @@
     - haproxy
   tags:
     - haproxy
+
+- hosts: apps
+  become: yes
+  roles:
+    - tomcat
+  tags:
+    - tomcat
