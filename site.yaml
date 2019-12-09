@@ -12,3 +12,10 @@
     - httpd
   tags:
     - httpd
+
+- hosts: frontends
+  become: yes
+  roles:
+    - haproxy
+  tags:
+    - haproxy
