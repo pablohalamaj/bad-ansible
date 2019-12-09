@@ -17,6 +17,17 @@
   notify:
     - restart tomcat
 
+- name: create Ansible directory
+  file:
+    path: /usr/share/tomcat/webapps/ansible
+    state: directory
+
+- name: copy static index.html to tomcat webapps/ansible/index.html
+  template:
+    src: templates/index.html.j2
+    dest: /usr/share/tomcat/webapps/ansible/index.html
+
+
 - name: enable Tomcat
   service:
     name: tomcat
