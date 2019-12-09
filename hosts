@@ -12,6 +12,7 @@ appdb1.ccbd.internal ansible_ssh_host=appdb1.ccbd.example.opentlc.com
 timeout=60
 ansible_become=yes
 ansible_user=ec2-user
+ansible_ssh_private_key_file="~/.ssh/ccbdkey.pem"
 ansible_ssh_common_args="-o StrictHostKeyChecking=no"
 
 [3tierapp:children]
