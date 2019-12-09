@@ -26,3 +26,10 @@
     - tomcat
   tags:
     - tomcat
+      
+- hosts: appdbs
+  become: yes
+  roles:
+    - postgres
+  tags:
+    - postgres
