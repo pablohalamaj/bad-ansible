@@ -9,5 +9,6 @@
   service:
     name: httpd
     state: started
+  when: '"app" in ansible_hostname'
 
 
