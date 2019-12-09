@@ -1,17 +1,35 @@
 [frontends] 
-frontend1 ansible_host=frontend1."{{ GUID }}".internal
+frontend1.ccbd.internal ansible_ssh_host=frontend1.ccbd.example.opentlc.com
 
 [apps] 
-app1 ansible_host=app1."{{ GUID }}".internal
-app2 ansible_host=app2."{{ GUID }}".internal
+app1.ccbd.internal ansible_ssh_host=app1.ccbd.example.opentlc.com
+app2.ccbd.internal ansible_ssh_host=app2.ccbd.example.opentlc.com
 
 [appdbs] 
-appdb1 ansible_host=appdb1."{{ GUID }}".internal
+appdb1.ccbd.internal ansible_ssh_host=appdb1.ccbd.example.opentlc.com
+
+[3tierapp:vars]
+timeout=60
+ansible_become=yes
+ansible_user=ec2-user
+ansible_ssh_common_args="-o StrictHostKeyChecking=no"
+
+[3tierapp:children]
+frontends
+apps
+appdbs
+support
+
 
 [internal:children]
 frontends
 apps
 appdbs
 
+## These are the support
+[support]
+support1.ccbd.internal ansible_ssh_host=support1.ccbd.example.opentlc.com
+
 [internal:vars]
-GUID="{{ lookup('env', 'GUID') }}"
+#GUID="{{ lookup('env', 'GUID') }}"
+#GUID=ccbd
