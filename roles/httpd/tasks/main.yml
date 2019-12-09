@@ -1,2 +1,13 @@
 ---
 # tasks file for apache
+- name: Install the apache package
+  package:
+    name: httpd
+    state: latest
+
+- name: enable apache at boot
+  service:
+    name: httpd
+    state: started
+
+
