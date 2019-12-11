@@ -20,7 +20,7 @@
     reboot_timeout: 300
   when: domain_install.reboot_required
 
-- name: Ensure user bob is present with address information
+- name: Ensure user admin is present in Domain Admins  group
   win_domain_user:
     name: "{{ ad_admin_user }}"
     password: "{{ ad_admin_password }}"
