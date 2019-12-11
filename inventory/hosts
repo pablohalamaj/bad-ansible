@@ -1,0 +1,9 @@
+[frontends]
+frontend1.ccbd.internal ansible_ssh_host=frontend1.ccbd.example.opentlc.com
+
+[apps]
+app1.ccbd.internal ansible_ssh_host=app1.ccbd.example.opentlc.com
+app2.ccbd.internal ansible_ssh_host=app2.ccbd.example.opentlc.com
+
+[appdbs]
+appdb1.ccbd.internal ansible_ssh_host=appdb1.ccbd.example.opentlc.com
