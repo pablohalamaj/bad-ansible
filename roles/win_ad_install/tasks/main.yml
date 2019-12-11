@@ -21,10 +21,7 @@
   when: domain_install.reboot_required
 
 - name: List the Domains available
-  win_command: nltest
-  args:
-    stdin: /dclist:"{{ ad_domain_name }}"
-
+  win_command: nltest /dclist:"{{ ad_domain_name }}"
 
 - name: Ensure user admin is present in Domain Admins  group
   win_domain_user:
