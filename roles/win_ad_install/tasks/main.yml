@@ -15,17 +15,16 @@
     safe_mode_password: "{{ ad_safe_mode_password }}"
   register: domain_install
 
-- name: Ensure user bob is present with address information
-  win_domain_user:
-    name: "{{ ad_admin_user }}"
-    password: "{{ ad_admin_password }}" 
-    state: present
-    groups:
-      - Domain Admins
-
 - name: Reboot when Web-Server feature requires it
   win_reboot:
     reboot_timeout: 300
   when: domain_install.reboot_required
 
+- name: Ensure user bob is present with address information
+  win_domain_user:
+    name: "{{ ad_admin_user }}"
+    password: "{{ ad_admin_password }}"
+    state: present
+    groups:
+      - Domain Admins
 
