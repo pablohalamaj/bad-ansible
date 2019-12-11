@@ -1,27 +1,29 @@
 ---
 # tasks file for win_ad_install
-- name: Install AD (Active Directory)
+- name: Install AD-Domain-Services feature
   win_feature:
-    name:
-    - AD-Domain-Services
-    state: present
+    name: AD-Domain-Services
+    include_management_tools: yes
+    include_sub_features: yes
 
-- name: Create new Windows domain in a new forest with specific parameters
+- name: Setup Active Directory Controller
   win_domain:
-    create_dns_delegation: no
     dns_domain_name: "{{ ad_domain_name }}"
+    safe_mode_password: "{{ ad_safe_mode_password }}"
     domain_mode: "{{ ad_domain_mode }}"
     forest_mode: "{{ ad_forest_mode }}"
-    safe_mode_password: "{{ ad_safe_mode_password }}"
-  register: domain_install
+  register: active_directory_controllers
 
-- name: Reboot when Web-Server feature requires it
+- name: Reboot once DC created
   win_reboot:
-    reboot_timeout: 300
-  when: domain_install.reboot_required
+  when: active_directory_controllers.reboot_required
 
-- name: List the Domains available
-  win_command: nltest /dclist:"{{ ad_domain_name }}"
+- name: List Domain Controllers in domain
+  win_shell: "nltest /dclist:{{ ad_domain_name }}"
+  register: domain_list
+
+- debug:
+   var: domain_list
 
 - name: Ensure user admin is present in Domain Admins  group
   win_domain_user:
