@@ -1,0 +1,7 @@
+---
+- name: add active directory users
+  hosts: windows
+  vars_files:
+    - ./ad_user_vars.yaml
+  roles:
+    - win_ad_user
