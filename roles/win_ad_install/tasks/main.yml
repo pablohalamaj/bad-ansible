@@ -1,0 +1,31 @@
+---
+# tasks file for win_ad_install
+- name: Install AD (Active Directory)
+  win_feature:
+    name:
+    - AD-Domain-Services
+    state: present
+
+- name: Create new Windows domain in a new forest with specific parameters
+  win_domain:
+    create_dns_delegation: no
+    dns_domain_name: "{{ ad_domain_name }}"
+    domain_mode: "{{ ad_domain_mode }}"
+    forest_mode: "{{ ad_forest_mode }}"
+    safe_mode_password: "{{ ad_safe_mode_password }}"
+  register: domain_install
+
+- name: Ensure user bob is present with address information
+  win_domain_user:
+    name: "{{ ad_admin_user }}"
+    password: "{{ ad_admin_password }}" 
+    state: present
+    groups:
+      - Domain Admins
+
+- name: Reboot when Web-Server feature requires it
+  win_reboot:
+    reboot_timeout: 300
+  when: domain_install.reboot_required
+
+
