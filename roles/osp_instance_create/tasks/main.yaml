@@ -1,0 +1,4 @@
+---
+# tasks file for roles/osp-lab
+- include_tasks: create-security-group.yaml
+- include_tasks: create-instance.yaml

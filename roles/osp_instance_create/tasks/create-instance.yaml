@@ -1,0 +1,25 @@
+---
+# tasks file for osp_instance_create
+- hosts: localhost
+  connection: local
+  tasks:
+  - name: Create a server instance
+    os_server:
+      cloud: "{{ cloud_name }}"
+      name: "{{ instance_name }}"
+      image: "{{ image_name  }}"
+      flavor: "{{ flavor_name }}"
+      meta: "group={{ server_group }},deployment_name={{ deployment_env}}"
+      security_groups: "{{ security_group  }}"
+      key_name: "{{ local_key | default('ansible_ssh') }}"
+      nics:
+      - net-name: int_network
+      - net-name: ext_network
+      userdata: |
+        #!/bin/bash
+        curl -o /tmp/openstack.pub http://www.opentlc.com/download/ansible_bootcamp/openstack_keys/openstack.pub
+        cat /tmp/openstack.pub >> /home/cloud-user/.ssh/authorized_keys
+        curl -o /tmp/internal.repo http://www.opentlc.com/download/ansible_bootcamp/repo/internal.repo
+        cp /tmp/internal.repo /etc/yum.repos.d/internal.repo
+    register: "{{ instance_name }}ip"
+
